@@ -12,6 +12,6 @@ public class UserRest {
 
     @GetMapping(value = "/hello")
     public SimpleResponse test(@RequestParam("name") String name){
-        return SimpleResponse.OK("Test, " + name);
+        return SimpleResponse.OK("Test1, " + name);
     }
 }
