@@ -1,5 +1,7 @@
 package edu.nju.stories.service;
 
+import edu.nju.stories.models.UserModel;
+
 public interface UserService {
 
     boolean getRegisterCode(String email);
@@ -10,6 +12,6 @@ public interface UserService {
 
     boolean logout(String token);
 
-    boolean checkToken(String token);
+    UserModel checkToken(String token);
 
 }

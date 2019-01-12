@@ -51,9 +51,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkToken(String token) {
+    public UserModel checkToken(String token) {
         UserModel user = userDao.findByToken(token);
-        return user != null;
+        return user;
     }
 
     private String generateToken(String userId){
