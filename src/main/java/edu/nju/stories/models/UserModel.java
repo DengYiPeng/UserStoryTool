@@ -26,5 +26,7 @@ public class UserModel {
     @LastModifiedDate
     private Date modifyTime = new Date(System.currentTimeMillis());
 
+    public static final String _Id = "_id";
     public static final String TOKEN = "token";
+    public static final String EMAIL = "email";
 }

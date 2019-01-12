@@ -8,6 +8,8 @@ public interface UserDao {
 
     UserModel findByToken(String token);
 
+    UserModel findByEmail(String email);
+
     void save(UserModel userModel);
 
     void clearToken(String token);
