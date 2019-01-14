@@ -9,6 +9,8 @@ import lombok.Data;
 @ApiModel("注册表单")
 public class RegisterForm {
 
+    @ApiModelProperty("用户名")
+    private String username;
     @ApiModelProperty("注册用邮箱")
     private String email;
     @ApiModelProperty("用户密码")

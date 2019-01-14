@@ -19,7 +19,7 @@ public class UserRest {
     @ApiOperation(value = "注册账号", response = String.class, notes = "若注册成功，则自动登录，返回值是token")
     @PostMapping(value = "/register")
     public SimpleResponse register(@RequestBody RegisterForm form){
-        String token = userService.register(form.getEmail(), form.getRegisterCode(), form.getPassword());
+        String token = userService.register(form.getUsername(), form.getEmail(), form.getRegisterCode(), form.getPassword());
         return SimpleResponse.OK(token);
     }
 

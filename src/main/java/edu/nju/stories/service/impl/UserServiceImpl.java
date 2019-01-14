@@ -20,12 +20,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String register(String email, String registerCode, String password) {
+    public String register(String username, String email, String registerCode, String password) {
         UserModel userModel = new UserModel();
         String userId = UUID.randomUUID().toString();
         userModel.set_id(userId);
         userModel.setEmail(email);
         userModel.setPassword(password);
+        userModel.setUsername(username);
         String token = generateToken(userId);
         userModel.setToken(token);
         userDao.save(userModel);

@@ -1,7 +1,9 @@
 package edu.nju.stories.interceptor;
 
 import edu.nju.stories.annotation.LoginRequired;
-import edu.nju.stories.exception.NotLoginException;
+import edu.nju.stories.constants.ErrorCode;
+import edu.nju.stories.constants.Headers;
+import edu.nju.stories.exception.LogicException;
 import edu.nju.stories.models.UserModel;
 import edu.nju.stories.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,6 @@ import java.lang.reflect.Method;
 
 
 public class AuthenticationInterceptor implements HandlerInterceptor {
-
-    public final static String ACCESS_TOKEN = "token";
 
 
     @Autowired
@@ -34,13 +34,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         // 有 @LoginRequired 注解，需要认证
         if (methodAnnotation != null) {
             // 判断是否存在令牌信息，如果存在，则允许登录
-            String accessToken = request.getHeader(ACCESS_TOKEN);
+            String accessToken = request.getHeader(Headers.ACCESS_TOKEN);
+            String userId = request.getHeader(Headers.ACCESS_USER_ID);
             if (null == accessToken) {
-                throw new NotLoginException();
+                throw new LogicException(ErrorCode.NOT_LOGIN, "没有登录");
             }
             UserModel userModel = userService.checkToken(accessToken);
-            if (userModel == null) {
-                throw new NotLoginException();
+            if (userModel == null || !userModel.get_id().equals(userId)) {
+                throw new LogicException(ErrorCode.NOT_LOGIN, "没有登录");
             }
             return true;
         }

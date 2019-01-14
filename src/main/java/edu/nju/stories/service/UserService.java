@@ -6,7 +6,7 @@ public interface UserService {
 
     boolean getRegisterCode(String email);
 
-    String register(String email, String registerCode, String password);
+    String register(String username, String email, String registerCode, String password);
 
     String login(String email, String password);
 
