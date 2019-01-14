@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://172.19.240.114:27017
+      uri: mongodb://172.19.240.114:27017/stories

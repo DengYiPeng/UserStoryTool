@@ -11,6 +11,7 @@ public class WebAppConfigure implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 可添加多个，这里选择拦截所有请求地址，进入后判断是否有加注解即可
-        registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/user").addPathPatterns("/map")
+        .addPathPatterns("/card");
     }
 }
