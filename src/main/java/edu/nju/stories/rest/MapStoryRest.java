@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/map")
 public class MapStoryRest {
@@ -49,4 +51,13 @@ public class MapStoryRest {
         return SimpleResponse.OK(result);
     }
 
+
+    @ApiOperation(value = "获取用户的故事地图列表", response = StoryMapVO.class, notes = "")
+    @GetMapping(value = "/list")
+    @LoginRequired
+    public SimpleResponse getStoryMapList(@RequestHeader(Headers.ACCESS_TOKEN) String token,
+                                             @RequestHeader(Headers.ACCESS_USER_ID) String userId){
+        List<StoryMapVO> storyMapList = storyMapService.getStoryMapList(userId);
+        return SimpleResponse.OK(storyMapList);
+    }
 }

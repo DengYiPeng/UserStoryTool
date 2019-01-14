@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class StoryMapServiceImpl implements StoryMapService {
@@ -28,6 +30,12 @@ public class StoryMapServiceImpl implements StoryMapService {
         model.setName(name);
         model.setState(ValidState.VALID);
         return new StoryMapVO(storyMapDao.save(model));
+    }
+
+    @Override
+    public List<StoryMapVO> getStoryMapList(String userId) {
+        List<StoryMapModel> models = storyMapDao.findByUserId(userId);
+        return models.stream().map(StoryMapVO::new).collect(Collectors.toList());
     }
 
     @Override
