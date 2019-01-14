@@ -1,5 +1,9 @@
 package edu.nju.stories.service;
 
+import edu.nju.stories.vo.StoryCardListVO;
+
+import java.util.List;
+
 public interface StoryCardService {
 
     boolean createLane(String mapId, int yAxis, int numberOfList, String userId);
@@ -11,5 +15,7 @@ public interface StoryCardService {
     boolean modifyContent(String cardId, String content);
 
     boolean modifyState(String cardId, int state);
+
+    List<StoryCardListVO> getStoryCardList(String mapId);
 
 }

@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "storycard")
-@Builder
 public class StoryCardModel {
 
     @Id
@@ -25,6 +24,17 @@ public class StoryCardModel {
 
     public StoryCardModel(){
 
+    }
+
+
+    public StoryCardModel(String id, String mapId, int xAxis, int yAxis, int innerIndex, String creatorId, int state){
+        this._id = id;
+        this.mapId = mapId;
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
+        this.innerIndex = innerIndex;
+        this.creatorId = creatorId;
+        this.state = state;
     }
 
     public static final String _ID = "_id";
