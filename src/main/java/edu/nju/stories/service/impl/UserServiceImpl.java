@@ -3,6 +3,7 @@ package edu.nju.stories.service.impl;
 import edu.nju.stories.dao.UserDao;
 import edu.nju.stories.models.UserModel;
 import edu.nju.stories.service.UserService;
+import edu.nju.stories.vo.LoginResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String register(String username, String email, String registerCode, String password) {
+    public LoginResult register(String username, String email, String registerCode, String password) {
         UserModel userModel = new UserModel();
         String userId = UUID.randomUUID().toString();
         userModel.set_id(userId);
@@ -30,18 +31,20 @@ public class UserServiceImpl implements UserService {
         String token = generateToken(userId);
         userModel.setToken(token);
         userDao.save(userModel);
-        return token;
+        LoginResult result = new LoginResult(token, userId);
+        return result;
     }
 
     @Override
-    public String login(String email, String password) {
+    public LoginResult login(String email, String password) {
         UserModel userModel = userDao.findByEmail(email);
         if (userModel.getPassword().equals(password)){
             return null;
         }else{
             String token = generateToken(userModel.get_id());
             userDao.signToken(userModel.get_id(), token);
-            return token;
+            LoginResult result = new LoginResult(token, userModel.get_id());
+            return result;
         }
     }
 

@@ -1,14 +1,15 @@
 package edu.nju.stories.service;
 
 import edu.nju.stories.models.UserModel;
+import edu.nju.stories.vo.LoginResult;
 
 public interface UserService {
 
     boolean getRegisterCode(String email);
 
-    String register(String username, String email, String registerCode, String password);
+    LoginResult register(String username, String email, String registerCode, String password);
 
-    String login(String email, String password);
+    LoginResult login(String email, String password);
 
     boolean logout(String token);
 
