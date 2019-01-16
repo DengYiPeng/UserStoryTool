@@ -43,9 +43,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (userModel == null || !userModel.get_id().equals(userId)) {
                 throw new LogicException(ErrorCode.NOT_LOGIN, "没有登录");
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
 }

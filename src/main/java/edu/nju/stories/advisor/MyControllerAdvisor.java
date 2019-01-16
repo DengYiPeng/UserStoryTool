@@ -16,6 +16,7 @@ public class MyControllerAdvisor {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public SimpleResponse errorHandler(Exception ex) {
+        ex.printStackTrace();
         if (ex instanceof LogicException){
             LogicException exception = (LogicException) ex;
             return new SimpleResponse(exception.getErrCode(), ex.getMessage());
@@ -32,6 +33,7 @@ public class MyControllerAdvisor {
     @ResponseBody
     @ExceptionHandler(value = LogicException.class)
     public SimpleResponse myErrorHandler(LogicException ex) {
+        ex.printStackTrace();
         return new SimpleResponse(ex.getErrCode(), ex.getMessage());
     }
 
