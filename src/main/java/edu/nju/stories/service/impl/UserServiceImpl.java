@@ -1,6 +1,8 @@
 package edu.nju.stories.service.impl;
 
+import edu.nju.stories.constants.ErrorCode;
 import edu.nju.stories.dao.UserDao;
+import edu.nju.stories.exception.LogicException;
 import edu.nju.stories.models.UserModel;
 import edu.nju.stories.service.UserService;
 import edu.nju.stories.vo.LoginResult;
@@ -39,12 +41,12 @@ public class UserServiceImpl implements UserService {
     public LoginResult login(String email, String password) {
         UserModel userModel = userDao.findByEmail(email);
         if (userModel.getPassword().equals(password)){
-            return null;
-        }else{
             String token = generateToken(userModel.get_id());
             userDao.signToken(userModel.get_id(), token);
             LoginResult result = new LoginResult(token, userModel.get_id());
             return result;
+        }else{
+            throw new LogicException(ErrorCode.ERROR_PASSWORD, "用户名密码错误");
         }
     }
 

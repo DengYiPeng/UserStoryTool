@@ -7,4 +7,6 @@ public class ErrorCode {
     public static final int NOT_LOGIN = 100;
 
     public static final int NO_PERMISSION = 200;
+
+    public static final int ERROR_PASSWORD = 300;
 }
