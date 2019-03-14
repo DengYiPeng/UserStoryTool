@@ -62,6 +62,18 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public boolean modifyPassword(String userId, String oldPassword, String newPassword) {
+        UserModel userModel = userDao.findById(userId);
+        if(!userModel.getPassword().equals(oldPassword)){
+            throw new LogicException(ErrorCode.ERROR_PASSWORD, "用户名密码错误");
+        }else{
+            userModel.setPassword(newPassword);
+            userDao.save(userModel);
+        }
+        return true;
+    }
+
     private String generateToken(String userId){
         return UUID.randomUUID().toString();
     }

@@ -1,6 +1,8 @@
 package edu.nju.stories.rest;
 
+import edu.nju.stories.constants.Headers;
 import edu.nju.stories.form.LoginForm;
+import edu.nju.stories.form.ModifyPasswordForm;
 import edu.nju.stories.form.RegisterForm;
 import edu.nju.stories.service.UserService;
 import edu.nju.stories.vo.LoginResult;
@@ -34,6 +36,15 @@ public class UserRest {
     @ApiOperation(value = "登出", response = Boolean.class, notes = "")
     @PostMapping(value = "/logout")
     public SimpleResponse logout(@RequestHeader("token") String token){
+        boolean result = userService.logout(token);
+        return SimpleResponse.OK(result);
+    }
+
+    @ApiOperation(value = "修改密码", response = Boolean.class, notes = "")
+    @PostMapping(value = "/modidy_password")
+    public SimpleResponse modify_password(@RequestHeader(Headers.ACCESS_TOKEN) String token,
+                                          @RequestHeader(Headers.ACCESS_USER_ID) String userId,
+                                          @RequestBody ModifyPasswordForm form){
         boolean result = userService.logout(token);
         return SimpleResponse.OK(result);
     }

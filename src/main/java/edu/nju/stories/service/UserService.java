@@ -15,4 +15,6 @@ public interface UserService {
 
     UserModel checkToken(String token);
 
+    boolean modifyPassword(String userId, String oldPassword, String newPassword);
+
 }
