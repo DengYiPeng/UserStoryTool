@@ -21,6 +21,7 @@ public class StoryCardModel {
     private int innerIndex;
     private String creatorId;
     private int state;
+    private String ownerId;
 
     public StoryCardModel(){
 
@@ -35,6 +36,7 @@ public class StoryCardModel {
         this.innerIndex = innerIndex;
         this.creatorId = creatorId;
         this.state = state;
+        this.ownerId = creatorId;
     }
 
     public static final String _ID = "_id";
@@ -45,5 +47,6 @@ public class StoryCardModel {
     public static final String Y_AXIS = "yAxis";
     public static final String INNER_INDEX = "innerIndex";
     public static final String STATE = "state";
+    public static final String OWNER_ID = "ownerId";
 
 }

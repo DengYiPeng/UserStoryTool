@@ -2,7 +2,9 @@ package edu.nju.stories.service.impl;
 
 import edu.nju.stories.constants.StoryCardState;
 import edu.nju.stories.dao.StoryCardDao;
+import edu.nju.stories.dao.UserDao;
 import edu.nju.stories.models.StoryCardModel;
+import edu.nju.stories.models.UserModel;
 import edu.nju.stories.service.StoryCardService;
 import edu.nju.stories.vo.StoryCardListVO;
 import edu.nju.stories.vo.StoryCardVO;
@@ -17,6 +19,9 @@ public class StoryCardServiceImpl implements StoryCardService {
 
     @Autowired
     StoryCardDao storyCardDao;
+
+    @Autowired
+    UserDao userDao;
 
     @Override
     public boolean createLane(String mapId, int yAxis, int numberOfList, String userId) {
@@ -60,6 +65,11 @@ public class StoryCardServiceImpl implements StoryCardService {
     @Override
     public List<StoryCardListVO> getStoryCardList(String mapId) {
         List<StoryCardModel> models = storyCardDao.findByMapId(mapId);
+        List<String> allUserIds = models.stream().map(StoryCardModel::getOwnerId)
+                .filter(Objects::nonNull).collect(Collectors.toList());
+        allUserIds.addAll(models.stream().map(StoryCardModel::getCreatorId).collect(Collectors.toList()));
+        List<UserModel> userModels = userDao.findByIds(allUserIds);
+        Map<String, UserModel> userModelMap = userModels.stream().collect(Collectors.toMap(i->i.get_id(),i->i));
         Map<Integer, List<StoryCardModel>> modelMapByXAxis = models.stream()
                 .collect(Collectors.groupingBy(StoryCardModel::getXAxis));
 
@@ -72,9 +82,15 @@ public class StoryCardServiceImpl implements StoryCardService {
             StoryCardListVO tempListVO = new StoryCardListVO();
             tempListVO.setXAxis(entry.getKey());
             tempListVO.setTitle(cards.get(0).getTitle());
-            tempListVO.setVos(cards.stream().map(StoryCardVO::new).collect(Collectors.toList()));
+            tempListVO.setVos(cards.stream().map(i->new StoryCardVO(i, userModelMap.getOrDefault(userModelMap.get(i.getOwnerId()), userModelMap.get(i.getCreatorId())))).collect(Collectors.toList()));
             result.add(tempListVO);
         }
         return result;
+    }
+
+    @Override
+    public boolean modifyOwnerOfChar(String cardId, String operatorId, String ownerRoleId) {
+        storyCardDao.set(cardId, StoryCardModel.OWNER_ID, operatorId);
+        return true;
     }
 }

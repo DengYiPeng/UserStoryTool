@@ -18,4 +18,8 @@ public interface StoryCardService {
 
     List<StoryCardListVO> getStoryCardList(String mapId);
 
+    boolean modifyOwnerOfChar(String cardId, String operatorId, String ownerRoleId);
+
+
+
 }

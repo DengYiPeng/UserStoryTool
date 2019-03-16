@@ -82,4 +82,14 @@ public class MapCardRest {
         boolean result = storyCardService.createList(form.getMapId(), form.getAxis(),form.getNumberOfCards(), userId);
         return SimpleResponse.OK(result);
     }
+
+    @ApiOperation(value = "修改任务卡片负责人", response = boolean.class, notes = "")
+    @PostMapping(value = "/modify_owner")
+    @LoginRequired
+    public SimpleResponse modifyOwner(@RequestHeader(Headers.ACCESS_TOKEN) String token,
+                                     @RequestHeader(Headers.ACCESS_USER_ID) String userId,
+                                     @RequestBody ModifyOwnerForm form){
+        boolean result = storyCardService.modifyOwnerOfChar(form.getCardId(), form.getOperatorId(), form.getOwnerId());
+        return SimpleResponse.OK(result);
+    }
 }
