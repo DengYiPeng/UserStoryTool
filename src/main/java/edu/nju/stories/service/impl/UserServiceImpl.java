@@ -24,6 +24,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResult register(String username, String email, String registerCode, String password) {
+
+
+        UserModel model = userDao.findByEmail(email);
+        if (model != null){
+            throw new LogicException(ErrorCode.USER_EXISTS, "该邮箱已注册过！");
+        }
         UserModel userModel = new UserModel();
         String userId = UUID.randomUUID().toString();
         userModel.set_id(userId);

@@ -15,4 +15,8 @@ public interface StoryMapDao {
     boolean modifyState(String id, int state);
 
     boolean modifyName(String id, String name);
+
+    boolean addMember(String id, String beAddedUserId);
+
+    boolean removeMember(String id ,String beRemovedUserId);
 }

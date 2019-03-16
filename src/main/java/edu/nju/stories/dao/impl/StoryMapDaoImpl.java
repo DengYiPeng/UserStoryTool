@@ -48,4 +48,20 @@ public class StoryMapDaoImpl implements StoryMapDao {
         Update update = new Update();
         update.set(StoryMapModel.NAME, name);
         return template.updateFirst(new Query(criteria), update, StoryMapModel.class).wasAcknowledged();    }
+
+    @Override
+    public boolean addMember(String id, String beAddedUserId) {
+        Criteria criteria = Criteria.where(StoryMapModel._ID).is(id);
+        Update update = new Update();
+        update.addToSet(StoryMapModel.MEMBER_IDS, beAddedUserId);
+        return template.updateFirst(new Query(criteria), update, StoryMapModel.class).wasAcknowledged();
+    }
+
+    @Override
+    public boolean removeMember(String id, String beRemovedUserId) {
+        Criteria criteria = Criteria.where(StoryMapModel._ID).is(id);
+        Update update = new Update();
+        update.pull(StoryMapModel.MEMBER_IDS, beRemovedUserId);
+        return template.updateFirst(new Query(criteria), update, StoryMapModel.class).wasAcknowledged();
+    }
 }
