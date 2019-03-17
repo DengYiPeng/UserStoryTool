@@ -20,6 +20,8 @@ public interface StoryCardService {
 
     boolean modifyOwnerOfChar(String cardId, String operatorId, String ownerRoleId);
 
+    boolean modifyPosition(String cardId, String operatorId, int targetXAxis, int targetYAxis);
 
+    boolean addCard(String mapId, String operatorId, int xAxis, int yAxis, String content);
 
 }

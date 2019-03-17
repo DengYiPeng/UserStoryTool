@@ -92,4 +92,24 @@ public class MapCardRest {
         boolean result = storyCardService.modifyOwnerOfChar(form.getCardId(), form.getOperatorId(), form.getOwnerId());
         return SimpleResponse.OK(result);
     }
+
+    @ApiOperation(value = "修改卡片归属泳道、列表", response = boolean.class, notes = "")
+    @PostMapping(value = "/modify_position")
+    @LoginRequired
+    public SimpleResponse modifyPosition(@RequestHeader(Headers.ACCESS_TOKEN) String token,
+                                      @RequestHeader(Headers.ACCESS_USER_ID) String userId,
+                                      @RequestBody ModifyPositionForm form){
+        boolean result = storyCardService.modifyPosition(form.getCardId(), form.getOperatorId(), form.getTargetXAxis(), form.getTargetYAxis());
+        return SimpleResponse.OK(result);
+    }
+
+    @ApiOperation(value = "在指定位置位置创建一张卡片", response = boolean.class, notes = "")
+    @PostMapping(value = "/add_card")
+    @LoginRequired
+    public SimpleResponse addCard(@RequestHeader(Headers.ACCESS_TOKEN) String token,
+                                         @RequestHeader(Headers.ACCESS_USER_ID) String userId,
+                                         @RequestBody AddCardForm form){
+        boolean result = storyCardService.addCard(form.getMapId(), form.getOperatorId(), form.getXAxis(), form.getYAxis(), form.getContent());
+        return SimpleResponse.OK(result);
+    }
 }

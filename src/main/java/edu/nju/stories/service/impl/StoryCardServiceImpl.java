@@ -93,4 +93,23 @@ public class StoryCardServiceImpl implements StoryCardService {
         storyCardDao.set(cardId, StoryCardModel.OWNER_ID, operatorId);
         return true;
     }
+
+    @Override
+    public boolean modifyPosition(String cardId, String operatorId, int targetXAxis, int targetYAxis) {
+        StoryCardModel cardModel = storyCardDao.findById(cardId);
+        if (cardModel == null) return false;
+        cardModel.setXAxis(targetXAxis);
+        cardModel.setYAxis(targetYAxis);
+        storyCardDao.save(cardModel);
+        return true;
+    }
+
+    @Override
+    public boolean addCard(String mapId, String operatorId, int xAxis, int yAxis, String content) {
+        StoryCardModel cardModel = new StoryCardModel(UUID.randomUUID().toString(), mapId, xAxis, yAxis,
+                0, operatorId, StoryCardState.TODO);
+        cardModel.setContent(content);
+        storyCardDao.save(cardModel);
+        return true;
+    }
 }
