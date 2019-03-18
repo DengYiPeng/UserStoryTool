@@ -41,11 +41,11 @@ public class UserRest {
     }
 
     @ApiOperation(value = "修改密码", response = Boolean.class, notes = "")
-    @PostMapping(value = "/modidy_password")
+    @PostMapping(value = "/modify_password")
     public SimpleResponse modify_password(@RequestHeader(Headers.ACCESS_TOKEN) String token,
                                           @RequestHeader(Headers.ACCESS_USER_ID) String userId,
                                           @RequestBody ModifyPasswordForm form){
-        boolean result = userService.logout(token);
+        boolean result = userService.modifyPassword(userId, form.getOldPassword(), form.getNewPassword());
         return SimpleResponse.OK(result);
     }
 }
