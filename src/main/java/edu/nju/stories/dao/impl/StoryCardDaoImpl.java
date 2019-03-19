@@ -47,7 +47,8 @@ public class StoryCardDaoImpl implements StoryCardDao {
         Criteria criteria = Criteria.where(StoryCardModel._ID).is(id);
         Update update = new Update();
         update.set(prop, value);
-        return template.updateFirst(new Query(criteria), update, StoryCardModel.class).wasAcknowledged();    }
+        return template.updateFirst(new Query(criteria), update, StoryCardModel.class).wasAcknowledged();
+    }
 
     @Override
     public boolean update(List<StoryCardModel> models) {

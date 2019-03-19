@@ -90,7 +90,7 @@ public class StoryCardServiceImpl implements StoryCardService {
 
     @Override
     public boolean modifyOwnerOfChar(String cardId, String operatorId, String ownerRoleId) {
-        storyCardDao.set(cardId, StoryCardModel.OWNER_ID, operatorId);
+        storyCardDao.set(cardId, StoryCardModel.OWNER_ID, ownerRoleId);
         return true;
     }
 
