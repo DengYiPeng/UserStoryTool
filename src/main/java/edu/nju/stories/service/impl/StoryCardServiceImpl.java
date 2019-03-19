@@ -82,7 +82,7 @@ public class StoryCardServiceImpl implements StoryCardService {
             StoryCardListVO tempListVO = new StoryCardListVO();
             tempListVO.setXAxis(entry.getKey());
             tempListVO.setTitle(cards.get(0).getTitle());
-            tempListVO.setVos(cards.stream().map(i->new StoryCardVO(i, userModelMap.getOrDefault(userModelMap.get(i.getOwnerId()), userModelMap.get(i.getCreatorId())))).collect(Collectors.toList()));
+            tempListVO.setVos(cards.stream().map(i->new StoryCardVO(i, userModelMap.getOrDefault(i.getOwnerId(), userModelMap.get(i.getCreatorId())))).collect(Collectors.toList()));
             result.add(tempListVO);
         }
         return result;
