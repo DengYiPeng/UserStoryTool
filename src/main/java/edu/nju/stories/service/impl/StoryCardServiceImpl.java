@@ -1,13 +1,16 @@
 package edu.nju.stories.service.impl;
 
+import edu.nju.stories.constants.ErrorCode;
 import edu.nju.stories.constants.StoryCardState;
 import edu.nju.stories.dao.StoryCardDao;
+import edu.nju.stories.dao.StoryMapDao;
 import edu.nju.stories.dao.UserDao;
+import edu.nju.stories.exception.LogicException;
 import edu.nju.stories.models.StoryCardModel;
+import edu.nju.stories.models.StoryMapModel;
 import edu.nju.stories.models.UserModel;
 import edu.nju.stories.service.StoryCardService;
-import edu.nju.stories.vo.StoryCardListVO;
-import edu.nju.stories.vo.StoryCardVO;
+import edu.nju.stories.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,9 @@ public class StoryCardServiceImpl implements StoryCardService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    StoryMapDao storyMapDao;
 
     @Override
     public boolean createLane(String mapId, int yAxis, int numberOfList, String userId) {
@@ -111,5 +117,26 @@ public class StoryCardServiceImpl implements StoryCardService {
         cardModel.setContent(content);
         storyCardDao.save(cardModel);
         return true;
+    }
+
+    @Override
+    public List<MemberCardVO> getMemberCards(String mapId, String operatorId) {
+        StoryMapModel storyMapModel = storyMapDao.findById(mapId);
+        if (!storyMapModel.getMemberIds().contains(operatorId)){
+            throw new LogicException(ErrorCode.NO_PERMISSION, "没有对故事地图的操作权限");
+        }else{
+            List<String> userIds = storyMapModel.getMemberIds();
+            List<UserVO> userVOS = userDao.findByIds(userIds).stream().map(UserVO::new).collect(Collectors.toList());
+            List<SimpleStoryCardVO> storyCardVOS = storyCardDao.findByMapId(mapId).stream().map(SimpleStoryCardVO::new).collect(Collectors.toList());
+            Map<String, List<SimpleStoryCardVO>> listMap = storyCardVOS.stream().collect(Collectors.groupingBy(SimpleStoryCardVO::getOwnerId));
+            List<MemberCardVO> result = new ArrayList<>();
+            for(UserVO userVO : userVOS){
+                MemberCardVO tempMemberCardVO = new MemberCardVO();
+                tempMemberCardVO.setCards(listMap.get(userVO.getUserId()));
+                tempMemberCardVO.setUserVO(userVO);
+                result.add(tempMemberCardVO);
+            }
+            return result;
+        }
     }
 }

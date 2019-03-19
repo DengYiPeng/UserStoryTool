@@ -5,6 +5,7 @@ import edu.nju.stories.annotation.LoginRequired;
 import edu.nju.stories.constants.Headers;
 import edu.nju.stories.form.*;
 import edu.nju.stories.service.StoryCardService;
+import edu.nju.stories.vo.MemberCardVO;
 import edu.nju.stories.vo.SimpleResponse;
 import edu.nju.stories.vo.StoryCardListVO;
 import io.swagger.annotations.ApiOperation;
@@ -110,6 +111,16 @@ public class MapCardRest {
                                          @RequestHeader(Headers.ACCESS_USER_ID) String userId,
                                          @RequestBody AddCardForm form){
         boolean result = storyCardService.addCard(form.getMapId(), form.getOperatorId(), form.getXAxis(), form.getYAxis(), form.getContent());
+        return SimpleResponse.OK(result);
+    }
+
+    @ApiOperation(value = "返回故事地图下不同成员的卡片信息", response = MemberCardVO.class, notes = "")
+    @GetMapping(value = "/member_cards")
+    @LoginRequired
+    public SimpleResponse getMemberCards(@RequestHeader(Headers.ACCESS_TOKEN) String token,
+                                  @RequestHeader(Headers.ACCESS_USER_ID) String userId,
+                                  @RequestParam("mapId") String mapId){
+        List<MemberCardVO> result = storyCardService.getMemberCards(mapId, userId);
         return SimpleResponse.OK(result);
     }
 }

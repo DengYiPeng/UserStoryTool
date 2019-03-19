@@ -1,5 +1,6 @@
 package edu.nju.stories.service;
 
+import edu.nju.stories.vo.MemberCardVO;
 import edu.nju.stories.vo.StoryCardListVO;
 
 import java.util.List;
@@ -23,5 +24,7 @@ public interface StoryCardService {
     boolean modifyPosition(String cardId, String operatorId, int targetXAxis, int targetYAxis);
 
     boolean addCard(String mapId, String operatorId, int xAxis, int yAxis, String content);
+
+    List<MemberCardVO> getMemberCards(String mapId, String operatorId);
 
 }
