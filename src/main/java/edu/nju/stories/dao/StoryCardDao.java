@@ -8,11 +8,15 @@ public interface StoryCardDao {
 
     StoryCardModel save(StoryCardModel model);
 
+    boolean save(List<StoryCardModel> models);
+
     StoryCardModel findById(String id);
 
     List<StoryCardModel> findByMapId(String mapId);
 
     List<StoryCardModel> findByMapIdAndAxis(String mapId, int xAxis, int yAxis);
+
+    List<StoryCardModel> findCardWithSpecificXAndBiggerY(String mapId, int xAxis, int yAxis);
 
     boolean set(String id, String prop, Object value);
 
