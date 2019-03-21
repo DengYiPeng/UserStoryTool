@@ -104,6 +104,14 @@ public class StoryCardServiceImpl implements StoryCardService {
     public boolean modifyPosition(String cardId, String operatorId, int targetXAxis, int targetYAxis) {
         StoryCardModel cardModel = storyCardDao.findById(cardId);
         if (cardModel == null) return false;
+        List<StoryCardModel> storyCardDaoByMapIdAndAxis = storyCardDao.findByMapIdAndAxis(cardModel.getMapId(), targetXAxis, targetYAxis);
+        if (!storyCardDaoByMapIdAndAxis.isEmpty()){
+            List<StoryCardModel> cardWithSpecificXAndBiggerY = storyCardDao.findCardWithSpecificXAndBiggerY(cardModel.getMapId(), targetXAxis, targetYAxis);
+            for(StoryCardModel tempModel : cardWithSpecificXAndBiggerY){
+                tempModel.setYAxis(tempModel.getYAxis() + 1);
+            }
+            storyCardDao.save(cardWithSpecificXAndBiggerY);
+        }
         cardModel.setXAxis(targetXAxis);
         cardModel.setYAxis(targetYAxis);
         storyCardDao.save(cardModel);

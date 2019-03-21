@@ -23,6 +23,14 @@ public class StoryCardDaoImpl implements StoryCardDao {
     }
 
     @Override
+    public boolean save(List<StoryCardModel> models) {
+        for(StoryCardModel model : models){
+            template.save(model);
+        }
+        return true;
+    }
+
+    @Override
     public StoryCardModel findById(String id) {
         return template.findById(id, StoryCardModel.class);
     }
@@ -38,6 +46,14 @@ public class StoryCardDaoImpl implements StoryCardDao {
         Criteria criteria = Criteria.where(StoryCardModel.MAP_Id).is(mapId);
         criteria.and(StoryCardModel.X_AXIS).is(xAxis);
         criteria.and(StoryCardModel.Y_AXIS).is(yAxis);
+        return template.find(new Query(criteria), StoryCardModel.class);
+    }
+
+    @Override
+    public List<StoryCardModel> findCardWithSpecificXAndBiggerY(String mapId, int xAxis, int yAxis) {
+        Criteria criteria = Criteria.where(StoryCardModel.MAP_Id).is(mapId);
+        criteria.and(StoryCardModel.X_AXIS).is(xAxis);
+        criteria.and(StoryCardModel.Y_AXIS).gte(yAxis);
         return template.find(new Query(criteria), StoryCardModel.class);
     }
 
