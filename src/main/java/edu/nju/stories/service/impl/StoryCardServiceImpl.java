@@ -84,7 +84,7 @@ public class StoryCardServiceImpl implements StoryCardService {
         Set<Map.Entry<Integer, List<StoryCardModel>>> entries = modelMapByXAxis.entrySet();
         for (Map.Entry<Integer, List<StoryCardModel>> entry : entries){
             List<StoryCardModel> cards = entry.getValue().stream()
-                    .sorted(Comparator.comparingInt(StoryCardModel::getInnerIndex)).collect(Collectors.toList());
+                    .sorted(Comparator.comparingInt(StoryCardModel::getYAxis)).collect(Collectors.toList());
             StoryCardListVO tempListVO = new StoryCardListVO();
             tempListVO.setXAxis(entry.getKey());
             tempListVO.setTitle(cards.get(0).getTitle());
